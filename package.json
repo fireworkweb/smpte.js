@@ -1,0 +1,42 @@
+{
+  "name": "timecode",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "scripts": {
+    "webpack:base": "node_modules/webpack/bin/webpack.js --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "dev:base": "NODE_ENV=development yarn webpack:base",
+    "dev": "yarn dev:base --progress",
+    "dev:silent": "yarn dev --define disable-notifications",
+    "watch": "yarn dev --watch",
+    "watch:silent": "yarn dev:silent --watch",
+    "prod": "NODE_ENV=production yarn webpack:base",
+    "lint": "eslint -c .eslintrc.prod.json --ext js src",
+    "lint:fix": "yarn lint --fix",
+    "prepare": "yarn prod",
+    "test": "node_modules/mocha/bin/mocha --require babel-core/register",
+    "test:all": "yarn test \"test/**/*.js\"",
+    "test:all-bail": "yarn test --bail \"test/**/*.js\""
+  },
+  "author": "Firework Web & Mobile",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fireworkweb/timecode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fireworkweb/timecode/issues"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "chai": "^4.1.2",
+    "eslint": "^4.19.1",
+    "laravel-mix": "^2.1.11",
+    "mocha": "^5.1.1"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  }
+}
