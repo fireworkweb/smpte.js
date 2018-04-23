@@ -60,12 +60,12 @@ export default class Timecode {
             throw new Error('Different frame rate timecodes can not be added');
         }
 
-        this.frameCount += time.frameCount;
-
         // Prevent from add 2 unnecessary frame when frames are already dropped
         if (this.attributes.df && this.frames - 2 >= 0 && time.frames - 2 >= 0) {
             this.frameCount -= 2;
         }
+
+        this.frameCount += time.frameCount;
 
         return this;
     }
