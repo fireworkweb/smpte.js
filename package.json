@@ -1,5 +1,5 @@
 {
-  "name": "timecode",
+  "name": "smpte.js",
   "version": "0.0.1",
   "main": "dist/index.js",
   "scripts": {
@@ -21,10 +21,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fireworkweb/timecode.git"
+    "url": "https://github.com/fireworkweb/smpte.js.git"
   },
   "bugs": {
-    "url": "https://github.com/fireworkweb/timecode/issues"
+    "url": "https://github.com/fireworkweb/smpte.js/issues"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

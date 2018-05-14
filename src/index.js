@@ -1,27 +1,50 @@
-import {
-    padNumber,
-    frameRates,
-    errors,
-} from './helpers.js';
+function padNumber (number) {
+    if (typeof number !== 'number') {
+        return undefined;
+    }
 
-export default class Timecode {
+    return number.toString().padStart(2, '0');
+}
+
+const frameRates = [
+    23.976,
+    24,
+    25,
+    29.97,
+    30,
+];
+
+export default class SMPTE {
     constructor (time, fr = 24, df = false) {
         if (fr !== 29.97 && df) {
             throw new Error('Only 29.97 frame rate has drop frame support');
         }
 
-        this.frameRate = fr;
-        this.attributes = { df, roundFr: Math.round(fr) };
+        if (!frameRates.includes(fr)) {
+            throw new Error('Frame rate not supported');
+        }
+
+        this.attributes = { df, frameRate: fr, roundFr: Math.round(fr) };
 
         if (typeof time === 'number') {
             if (time < 0) {
                 throw new Error('Negative frames not supported');
             }
 
-            this.frameCount = Math.round(time);
+            this.frameCount = Math.floor(time);
+        } else if (time instanceof Date) {
+            let midnight = new Date(time.getTime());
+            midnight.setHours(0, 0, 0, 0);
+            time = (time - midnight) * this.attributes.frameRate;
+
+            this.frameCount = Math.floor(time / 1000);
         } else {
-            this.frameCount = Timecode.frameCountFromTimecode(time, fr, df);
+            this.frameCount = SMPTE.frameCountFromTimecode(time, fr, df);
         }
+    }
+
+    get frameCount () {
+        return this._frameCount;
     }
 
     set frameCount (fc) {
@@ -29,70 +52,113 @@ export default class Timecode {
 
         let _fc = this.attributes.df ? this.dropFrame() : this._frameCount;
 
-        this.hours = Math.floor(_fc / (this.attributes.roundFr * 3600)) % 24;
-        this.minutes = Math.floor(_fc / (this.attributes.roundFr * 60)) % 60;
-        this.seconds = Math.floor(_fc / this.attributes.roundFr) % 60;
-        this.frames = _fc % this.attributes.roundFr;
+        this._hours = Math.floor(_fc / (this.attributes.roundFr * 3600)) % 24;
+        this._minutes = Math.floor(_fc / (this.attributes.roundFr * 60)) % 60;
+        this._seconds = Math.floor(_fc / this.attributes.roundFr) % 60;
+        this._frames = _fc % this.attributes.roundFr;
     }
 
-    get frameCount () {
-        return this._frameCount;
+    get hours () {
+        return this._hours;
     }
 
+    set hours (value) {
+        this._hours = value;
+
+        this._frameCount = SMPTE.frameCountFromTimecode(
+            this.toString(),
+            this.attributes.frameRate,
+            this.attributes.df,
+        );
+    }
+
+    get minutes () {
+        return this._minutes;
+    }
+
+    set minutes (value) {
+        this._minutes = value;
+
+        this._frameCount = SMPTE.frameCountFromTimecode(
+            this.toString(),
+            this.attributes.frameRate,
+            this.attributes.df,
+        );
+    }
+
+    get seconds () {
+        return this._seconds;
+    }
+
+    set seconds (value) {
+        this._seconds = value;
+
+        this._frameCount = SMPTE.frameCountFromTimecode(
+            this.toString(),
+            this.attributes.frameRate,
+            this.attributes.df,
+        );
+    }
+
+    get frames () {
+        return this._frames;
+    }
+
+    set frames (value) {
+        this._frames = value;
+
+        this._frameCount = SMPTE.frameCountFromTimecode(
+            this.toString(),
+            this.attributes.frameRate,
+            this.attributes.df,
+        );
+    }
+
+    get durationInSeconds () {
+        return this.frameCount / this.attributes.frameRate;
+    }
+
+    /**
+     * Adds a number of seconds to the current timecode object
+     * @param {Number} seconds Number in seconds
+     */
     addFromSeconds (seconds) {
-        this.add(Timecode.timecodeFromSeconds(seconds, this.frameRate, this.attributes.df));
+        let tm = SMPTE.timecodeFromSeconds(seconds, this.attributes.frameRate, this.attributes.df);
+
+        return this.add(tm);
     }
 
+    /**
+     * Substracts a number of seconds from the current timecode object
+     * @param {Number} seconds Number in seconds
+     */
     subtractFromSeconds (seconds) {
-        let tc = Timecode.timecodeFromSeconds(seconds, this.frameRate, this.attributes.df);
-        this.add(-tc.frameCount);
+        let tc = SMPTE.timecodeFromSeconds(seconds, this.attributes.frameRate, this.attributes.df);
+        this.subtract(tc);
     }
 
-    add (time) {
-        if (typeof time === 'number') {
-            this.frameCount += time;
-            return this;
-        }
-
-        if (!(time instanceof Timecode)) {
-            time = new Timecode(time, this.frameRate, this.attributes.df);
-        } else if (time.frameRate !== this.frameRate) {
+    /**
+     * Adds a timecode or a frame count to the current SMPTE object
+     * @param {Number|String|Object} time Frame count, SMPTE object or string to be added
+     */
+    add (time, operation = 1) {
+        if (!(time instanceof SMPTE)) {
+            time = new SMPTE(time, this.attributes.frameRate, this.attributes.df);
+        } else if (time.attributes.frameRate !== this.attributes.frameRate) {
             throw new Error('Different frame rate timecodes can not be added');
         }
 
-        // Prevent from add 2 unnecessary frame when frames are already dropped
-        if (this.attributes.df && this.frames - 2 >= 0 && time.frames - 2 >= 0) {
-            this.frameCount -= 2;
-        }
-
-        this.frameCount += time.frameCount;
+        this.frameCount += (time.frameCount * operation);
 
         return this;
     }
 
+    /**
+     * Substracts a timecode or a frame count from the current SMPTE object
+     * @param {Number|String|Object} time Frame count, SMPTE object or string to be subtracted
+     */
     subtract (time) {
-        if (typeof time === 'number') {
-            if (time >= this.frameCount) {
-                this.frameCount = 0;
-                return this;
-            }
-            return this.add(-time);
-        }
-
-        let tc;
-
-        if (!(time instanceof Timecode)) {
-            tc = new Timecode(time, this.frameRate, this.attributes.df);
-        } else if (time.frameRate !== this.frameRate) {
-            throw new Error('Different frame rate timecodes can not be added');
-        } else if (Timecode.isValidTimecode(time, this.frameRate, this.attributes.df)) {
-            let subtract = Timecode.frameCountFromTimecode(time, this.frameRate, this.attributes.df);
-            this.add(-subtract);
-        } else if (time instanceof Timecode) {
-            this.add(-time.frameCount);
-        } else {
-            throw new Error(errors.invalidParam);
-        }
+        return this.frameCount === 0 ? this : this.add(time, -1);
     }
 
     /**
@@ -118,14 +184,15 @@ export default class Timecode {
      */
     toString (format = undefined) {
         let df = this.attributes.df;
-        let validTm = Timecode.isTimecodeFormatValid(format, df);
+        let validTm = SMPTE.isTimecodeFormatValid(format, df);
+        let separator = df ? ';' : ':';
 
         let separators = format && validTm
             ? format.match(/:|;/g)
             : [
-                ':',
-                ':',
-                df ? ';' : ':',
+                separator,
+                separator,
+                separator,
             ];
 
         if (format !== undefined && !validTm) {
@@ -138,6 +205,22 @@ export default class Timecode {
             + padNumber(this.frames);
     }
 
+    /**
+     * Converts a SMPTE object to a date object
+     */
+    toDate () {
+        let tcInMs = (this.frameCount / this.attributes.frameRate) * 1000;
+        let date = new Date();
+        date.setHours(0, 0, 0, 0);
+
+        return new Date(date.valueOf() + tcInMs);
+    }
+
+    /**
+     * Checks if a timecode string is in a valid format
+     * @param {String} timecode Timecode string to be evaluated
+     * @param {Boolean} df Boolean indicating if is drop frame representation
+     */
     static isTimecodeFormatValid (timecode, df) {
         if (typeof timecode !== 'string') {
             return false;
@@ -157,33 +240,35 @@ export default class Timecode {
     /**
      * Checks if a timecode is valid according to SMPTE standard
      * @param {String} timecode Timecode to be evaluated
+     * @param {Number} fr Frame rate number
      * @param {Boolean} df Boolean indicating if timecode is drop frame
      */
     static isValidTimecode (timecode, fr = undefined, df) {
-        if (!Timecode.isTimecodeFormatValid(timecode, df)) {
+        if (!SMPTE.isTimecodeFormatValid(timecode, df)) {
             return false;
         }
 
-        if (!frameRates.includes(fr)) {
+        let parts = timecode.split(/:|;/).map(part => parseInt(part));
+
+        if (typeof fr === 'number' && parts[3] >= Math.round(fr)) {
             return false;
         }
 
-        let frames = parseInt(timecode.slice(9, 11));
-        let minutes = parseInt(timecode.slice(3, 5));
-
-        if (typeof fr === 'number' && parseInt(frames) >= Math.round(fr)) {
-            return false;
-        }
-
-        if (df && (minutes % 10) !== 0 && frames < 2) {
+        if (df && (parts[1] % 10) !== 0 && parts[3] < 2 && parts[2] === 0) {
             return false;
         }
 
         return true;
     }
 
-    static frameCountFromTimecode (timecode, fr = 24, df = false) {
-        if (!Timecode.isValidTimecode(timecode, fr, df)) {
+    /**
+     * Gets the frame count given a timecode string
+     * @param {String} timecode Timecode string
+     * @param {Number} fr Frame rate number
+     * @param {Boolean} df Boolean indicating if timecode is drop frame
+     */
+    static frameCountFromTimecode (timecode, fr = 29.97, df = false) {
+        if (!SMPTE.isValidTimecode(timecode, fr, df)) {
             throw new Error('Invalid timecode');
         }
 
@@ -203,11 +288,17 @@ export default class Timecode {
         return _fc;
     }
 
+    /**
+     * Creates a SMPTE object given a number in seconds
+     * @param {Number} seconds Seconds number
+     * @param {Number} fr Frame rate number
+     * @param {Boolean} df Boolean indicating if timecode is drop frame
+     */
     static timecodeFromSeconds (seconds, fr = 24, df = false) {
-        if (!frameRates.includes(fr)) {
-            throw new Error('Frame rate not supported');
-        }
+        let _fc = seconds;
 
-        return new Timecode(seconds * fr, fr, df);
+        _fc *= df ? fr : Math.round(fr);
+
+        return new SMPTE(Math.round(_fc), fr, df);
     }
 }

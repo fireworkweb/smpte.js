@@ -1,13 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <title>smpte.js Basic Example</title>
 </head>
+
 <body>
+    <div class="container">
+        <legend style="margin-top: 20px;">Input</legend>
+        <form id="form" class="container">
+            <label for="tc1">Timecode 1</label>
+            <div class="input-group mb-3">
+                <input class="form-control" id="tc1" type="text" placeholder="HH:MM:SS:FF" value="00:00:00:00" required>
+            </div>
+            <label for="tc2">Timecode 2</label>
+            <div class="input-group mb-3">
+                <input class="form-control" id="tc2" type="text" placeholder="HH:MM:SS:FF" value="00:00:00:01" required>
+            </div>
+            <label for="df">Frame Rate</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">DF</span>
+                    <div class="input-group-text">
+                        <input id="df" type="checkbox">
+                    </div>
+                </div>
+                <input class="form-control" id="fr" type="number" step="0.01" value="29.97" required>
+            </div>
+            <button type="submit" class="btn btn-dark">Add Timecodes</button>
+        </form>
+        <legend style="margin-top: 20px;">Result</legend>
+        <div class="container">
+            <input id="result" class="form-control" type="string" disabled>
+        </div>
+    </div>
 
     <script src="../dist/index.js"></script>
+    <script type="text/javascript">
+        (function (SMPTE) {
+            const formEl = document.getElementById('form');
+            const tc1El = document.getElementById('tc1');
+            const tc2El = document.getElementById('tc2');
+            const frEl = document.getElementById('fr');
+            const dfEl = document.getElementById('df');
+            const resultEl = document.getElementById('result');
+
+            formEl.addEventListener('submit', e => {
+                e.preventDefault();
+                let fr = parseFloat(frEl.value);
+                let df = dfEl.checked;
+                let tc1 = new SMPTE(tc1El.value, fr, df);
+
+                resultEl.value = tc1.add(tc2El.value).toString();
+            });
+        })(SMPTE)
+    </script>
 </body>
+
 </html>

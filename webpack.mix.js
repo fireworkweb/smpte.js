@@ -5,7 +5,7 @@ const { unlinkSync } = require('fs');
 mix
     .webpackConfig({
         output: {
-            library: 'Timecode',
+            library: 'SMPTE',
             libraryExport: 'default',
             libraryTarget: 'umd',
         },
