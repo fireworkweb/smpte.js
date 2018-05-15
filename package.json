@@ -6,16 +6,14 @@
     "webpack:base": "node_modules/webpack/bin/webpack.js --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "dev:base": "NODE_ENV=development yarn webpack:base",
     "dev": "yarn dev:base --progress",
-    "dev:silent": "yarn dev --define disable-notifications",
     "watch": "yarn dev --watch",
-    "watch:silent": "yarn dev:silent --watch",
     "prod": "NODE_ENV=production yarn webpack:base",
     "lint": "eslint -c .eslintrc.prod.json --ext js src",
     "lint:fix": "yarn lint --fix",
-    "prepare": "yarn prod",
-    "test": "node_modules/mocha/bin/mocha --require babel-core/register",
-    "test:all": "yarn test \"test/**/*.js\"",
-    "test:all-bail": "yarn test --bail \"test/**/*.js\""
+    "prepublishOnly": "yarn test && yarn prod",
+    "test:base": "node_modules/mocha/bin/mocha --require babel-core/register",
+    "test": "yarn test:base \"test/**/*.js\"",
+    "test:bail": "yarn test --bail"
   },
   "author": "Firework Web & Mobile",
   "license": "MIT",
@@ -34,9 +32,5 @@
     "laravel-mix": "^2.1.11",
     "mocha": "^5.1.1"
   },
-  "babel": {
-    "presets": [
-      "env"
-    ]
-  }
+  "dependencies": {}
 }

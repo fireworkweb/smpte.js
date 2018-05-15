@@ -20,7 +20,7 @@ export default class SMPTE {
             throw new Error('Only 29.97 frame rate has drop frame support');
         }
 
-        if (!frameRates.includes(fr)) {
+        if (! frameRates.includes(fr)) {
             throw new Error('Frame rate not supported');
         }
 
@@ -32,15 +32,21 @@ export default class SMPTE {
             }
 
             this.frameCount = Math.floor(time);
-        } else if (time instanceof Date) {
+
+            return;
+        }
+
+        if (time instanceof Date) {
             let midnight = new Date(time.getTime());
             midnight.setHours(0, 0, 0, 0);
             time = (time - midnight) * this.attributes.frameRate;
 
             this.frameCount = Math.floor(time / 1000);
-        } else {
-            this.frameCount = SMPTE.frameCountFromTimecode(time, fr, df);
+
+            return;
         }
+
+        this.frameCount = SMPTE.frameCountFromTimecode(time, fr, df);
     }
 
     get frameCount () {
@@ -79,11 +85,7 @@ export default class SMPTE {
     set minutes (value) {
         this._minutes = value;
 
-        this._frameCount = SMPTE.frameCountFromTimecode(
-            this.toString(),
-            this.attributes.frameRate,
-            this.attributes.df,
-        );
+        this._updateFramecount();
     }
 
     get seconds () {
@@ -93,11 +95,7 @@ export default class SMPTE {
     set seconds (value) {
         this._seconds = value;
 
-        this._frameCount = SMPTE.frameCountFromTimecode(
-            this.toString(),
-            this.attributes.frameRate,
-            this.attributes.df,
-        );
+        this._updateFramecount();
     }
 
     get frames () {
@@ -107,6 +105,10 @@ export default class SMPTE {
     set frames (value) {
         this._frames = value;
 
+        this._updateFramecount();
+    }
+
+    _updateFramecount () {
         this._frameCount = SMPTE.frameCountFromTimecode(
             this.toString(),
             this.attributes.frameRate,
@@ -134,7 +136,8 @@ export default class SMPTE {
      */
     subtractFromSeconds (seconds) {
         let tc = SMPTE.timecodeFromSeconds(seconds, this.attributes.frameRate, this.attributes.df);
-        this.subtract(tc);
+
+        return this.subtract(tc);
     }
 
     /**

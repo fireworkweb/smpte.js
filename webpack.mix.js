@@ -1,4 +1,4 @@
-/* global require, process */
+/* global require */
 const mix = require('laravel-mix');
 const { unlinkSync } = require('fs');
 
@@ -12,8 +12,5 @@ mix
     })
     .js('src/index.js', 'dist')
     .sourceMaps(false)
+    .disableSuccessNotifications()
     .then(() => unlinkSync('mix-manifest.json'));
-
-if (process.argv.findIndex(arg => arg === 'disable-notifications') !== -1) {
-    mix.disableNotifications();
-}
