@@ -1,3 +1,5 @@
+let breakTest;
+
 function padNumber (number) {
     if (typeof number !== 'number') {
         return undefined;
