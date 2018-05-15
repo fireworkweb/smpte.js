@@ -14,8 +14,3 @@ script:
 - yarn prod
 - yarn test
 - yarn lint
-notifications:
-  slack:
-    on_success: change
-    rooms:
-      secure: QxSbVrlThqVXN6eHuuy0Tw4LVeUz+RtzHVNNZRb2J+xdXtcyI60Y6hswtaSzzlD8jCOA2B9BpNP2Yjag/ll7q3RCIHkfZH+l4tI2yFQBK/Tvmxkfv0pAE6YGqUCF/KedXdOtlS709rFc1+QjFr0KT9rbanmHGKGUAno68eZOxROZyTVGu+zg9Du+dfnTdfBGGBPHIN5jznV7jd7J8PVI7GiTz3+k5utISHZffbRl4koIdBAmdy/rWiAxSIxqre+hTs37ABBqYhfjQ4r4lyIT8bniLj0UaPMY0bLNgjscsQcpIHGnC8+ZsmfOwMYbwGL93TEwSsf2VqGrPXTZGexasvaZD7Qouf9gJMbtxunoROuLu1xcvEJzhJljoUaeNBRiMMkFthcid1AYrmbTDUPMZ9r3e6HadOeFqNdsw4ag+jf5+SgvKjHwgaamYTksEWAnS1+l92RZuvM53UCTJWn+YhFDK8nT3iX2PSqPyt+uXsytIc9YuJJRm+a+wIux93eOguNhsumAlYTISj3LRxlQNV9Ilytj9+Ezn3orBAdSXPGOPZrtypeh4+pN1bAut4vNG3AOsXmKFK6uHGG3xwpWzWaUr8wDfyD7PSh1ViKnb5VZ3jNNVrWwnZYq+cmSIXVibscClPQQgCQmeBQT27PmT/zTDpAyHoYGlJeUJaBisP0=
