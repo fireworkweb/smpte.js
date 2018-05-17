@@ -5,12 +5,12 @@ describe('SMPTE', function () {
     describe('.constructor(time, frameRate=24, df=false)', function () {
         it('requires smpte timecode string or frame count as argument', function () {
             expect(() => new SMPTE(0)).to.not.throw(Error);
+            expect(() => new SMPTE({})).to.not.throw(Error);
             expect(() => new SMPTE('00:00:00:00')).to.not.throw(Error);
 
             expect(() => new SMPTE(-128)).to.throw(Error);
             expect(() => new SMPTE('abcde')).to.throw(Error);
             expect(() => new SMPTE(true)).to.throw(Error);
-            expect(() => new SMPTE({})).to.throw(Error);
         });
 
         it('requires a timecode less or equal to 23:59:59:23', function () {

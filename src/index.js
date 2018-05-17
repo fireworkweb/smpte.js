@@ -46,6 +46,24 @@ export default class SMPTE {
             return;
         }
 
+        if (typeof time === 'object') {
+            let separator = df ? ';' : ':';
+
+            time = {
+                hours: padNumber(time.hours),
+                minutes: padNumber(time.minutes),
+                seconds: padNumber(time.seconds),
+                frames: padNumber(time.frames),
+            };
+
+            time = Object.keys(time)
+                .reduce(
+                    (prev, key) => prev += `${time[key] !== undefined ? time[key] : '00'}${separator}`,
+                    ""
+                )
+                .slice(0, -1);
+        }
+
         this.frameCount = SMPTE.frameCountFromTimecode(time, fr, df);
     }
 
