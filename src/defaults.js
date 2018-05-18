@@ -1,4 +1,4 @@
 export default {
-    fr: 24,
-    df: false,
+    frameRate: 24,
+    dropFrame: false,
 };

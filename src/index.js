@@ -10,7 +10,7 @@ const supportedFRs = Object.freeze([
 ]);
 
 class SMPTE {
-    constructor (time, fr = SMPTE.defaults.fr, df = SMPTE.defaults.df) {
+    constructor (time, fr = SMPTE.defaults.frameRate, df = SMPTE.defaults.dropFrame) {
         if (fr !== 29.97 && df) {
             throw new Error('Only 29.97 frame rate has drop frame support');
         }
