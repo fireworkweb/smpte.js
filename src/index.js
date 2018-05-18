@@ -1,26 +1,21 @@
-function padNumber (number) {
-    if (typeof number !== 'number') {
-        return undefined;
-    }
+import defaults from './defaults.js';
+import { padNumber } from './utils.js';
 
-    return number.toString().padStart(2, '0');
-}
-
-const frameRates = [
+const supportedFRs = Object.freeze([
     23.976,
     24,
     25,
     29.97,
     30,
-];
+]);
 
-export default class SMPTE {
-    constructor (time, fr = 24, df = false) {
+class SMPTE {
+    constructor (time, fr = SMPTE.defaults.fr, df = SMPTE.defaults.df) {
         if (fr !== 29.97 && df) {
             throw new Error('Only 29.97 frame rate has drop frame support');
         }
 
-        if (! frameRates.includes(fr)) {
+        if (! SMPTE.supportedFrameRates.includes(fr)) {
             throw new Error('Frame rate not supported');
         }
 
@@ -323,3 +318,8 @@ export default class SMPTE {
         return new SMPTE(Math.round(_fc), fr, df);
     }
 }
+
+SMPTE.defaults = defaults;
+SMPTE.supportedFrameRates = supportedFRs;
+
+export default SMPTE;
