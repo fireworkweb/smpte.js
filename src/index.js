@@ -19,8 +19,14 @@ function instantiate (type, fr = SMPTE.defaults.frameRate, df = SMPTE.defaults.d
     return new SMPTE(type, fr, df);
 }
 
+/**
+ * Creates a SMPTE object given a frame number
+ */
 SMPTE.fromFrames = instantiate;
 
+/**
+ * Creates a SMPTE object given a date object
+ */
 SMPTE.fromDate = instantiate;
 
 /**
@@ -58,10 +64,10 @@ SMPTE.fromParts = function (
 };
 
 /**
-     * Checks if a timecode string is in a valid format
-     * @param {String} timecode Timecode string to be evaluated
-     * @param {Boolean} df Boolean indicating if is drop frame representation
-     */
+ * Checks if a timecode string is in a valid format
+ * @param {String} timecode Timecode string to be evaluated
+ * @param {Boolean} df Boolean indicating if is drop frame representation
+ */
 SMPTE.isTimecodeFormatValid = function (timecode, df) {
     if (typeof timecode !== 'string') {
         return false;
