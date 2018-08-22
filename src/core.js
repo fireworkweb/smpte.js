@@ -6,7 +6,7 @@ export default class SMPTE {
             throw new Error('Only 29.97 frame rate has drop frame support');
         }
 
-        if (! SMPTE.supportedFrameRates.includes(fr)) {
+        if (! SMPTE.isFramerateSupported(fr)) {
             throw new Error('Frame rate not supported');
         }
 
