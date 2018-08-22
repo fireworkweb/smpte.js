@@ -1,0 +1,12 @@
+{
+  "name": "smpte-js",
+  "alias": "smpte-js",
+  "features": {
+    "cloud": "v2"
+  },
+  "static":{
+    "redirects": [
+      { "source": "/", "destination": "/examples/" }
+    ]
+  }
+}
