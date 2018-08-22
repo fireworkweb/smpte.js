@@ -47,44 +47,70 @@ describe('SMPTE', function () {
         const isValidTimecode = SMPTE.isValidTimecode;
 
         it('should accept SMPTE Timecodes', function () {
-            expect(isValidTimecode('00:00:00:00'))
-                .to.be.true;
-            expect(isValidTimecode('00:00:00;00', 29.97, true))
-                .to.be.true;
-            expect(isValidTimecode('00;00;00;00', 29.97, true))
-                .to.be.true;
+            expect(isValidTimecode('00:00:00:00')).to.be.true;
+            expect(isValidTimecode('00:00:00;00', 29.97, true)).to.be.true;
+            expect(isValidTimecode('00;00;00;00', 29.97, true)).to.be.true;
         });
 
         it('should reject non SMPTE Timecodes', function () {
             // NDF Timecodes
-            expect(isValidTimecode('00:00:00;00'))
-                .to.be.false;
-            expect(isValidTimecode('00:00;00:00'))
-                .to.be.false;
-            expect(isValidTimecode('00;00:00:00'))
-                .to.be.false;
-            expect(isValidTimecode('00:00;00;00'))
-                .to.be.false;
-            expect(isValidTimecode('00;00:00;00'))
-                .to.be.false;
-            expect(isValidTimecode('00;00;00:00'))
-                .to.be.false;
-            expect(isValidTimecode('00;00;00;00'))
-                .to.be.false;
+            expect(isValidTimecode('00:00:00;00')).to.be.false;
+            expect(isValidTimecode('00:00;00:00')).to.be.false;
+            expect(isValidTimecode('00;00:00:00')).to.be.false;
+            expect(isValidTimecode('00:00;00;00')).to.be.false;
+            expect(isValidTimecode('00;00:00;00')).to.be.false;
+            expect(isValidTimecode('00;00;00:00')).to.be.false;
+            expect(isValidTimecode('00;00;00;00')).to.be.false;
 
             // DF Timecodes
-            expect(isValidTimecode('00:00:00:00', 29.97, true))
-                .to.be.false;
-            expect(isValidTimecode('00:00;00:00', 29.97, true))
-                .to.be.false;
-            expect(isValidTimecode('00:00;00;00', 29.97, true))
-                .to.be.false;
-            expect(isValidTimecode('00;00:00:00', 29.97, true))
-                .to.be.false;
-            expect(isValidTimecode('00;00:00;00', 29.97, true))
-                .to.be.false;
-            expect(isValidTimecode('00;00;00:00', 29.97, true))
-                .to.be.false;
+            expect(isValidTimecode('00:00:00:00', 29.97, true)).to.be.false;
+            expect(isValidTimecode('00:00;00:00', 29.97, true)).to.be.false;
+            expect(isValidTimecode('00:00;00;00', 29.97, true)).to.be.false;
+            expect(isValidTimecode('00;00:00:00', 29.97, true)).to.be.false;
+            expect(isValidTimecode('00;00:00;00', 29.97, true)).to.be.false;
+            expect(isValidTimecode('00;00;00:00', 29.97, true)).to.be.false;
+        });
+    });
+
+    describe('.isFramerateSupported()', function () {
+        const isFramerateSupported = SMPTE.isFramerateSupported;
+
+        it('should validate supported framerates', function () {
+            expect(isFramerateSupported(23.976)).to.be.true;
+            expect(isFramerateSupported(24)).to.be.true;
+            expect(isFramerateSupported(25)).to.be.true;
+            expect(isFramerateSupported(29.97)).to.be.true;
+            expect(isFramerateSupported(30)).to.be.true;
+        });
+
+        it('should validate not supported framerates', function () {
+            expect(isFramerateSupported(23)).to.be.false;
+            expect(isFramerateSupported(26)).to.be.false;
+            expect(isFramerateSupported(1)).to.be.false;
+            expect(isFramerateSupported(35)).to.be.false;
+            expect(isFramerateSupported(100)).to.be.false;
+        });
+    });
+
+    describe('.fromSeconds()', function () {
+        const fromSeconds = SMPTE.fromSeconds;
+
+        it('should accept seconds as number only', function () {
+            expect(fromSeconds(1).frameCount).to.equal(24);
+            expect(() => fromSeconds('1')).to.throw(Error);
+            expect(() => fromSeconds(1, '')).to.throw(Error);
+        });
+
+        it('should properly return frame count from milliseconds', function () {
+            expect(fromSeconds(0).frameCount).to.equal(0);
+            expect(fromSeconds(0.042).frameCount).to.equal(1);
+            expect(fromSeconds(0.084).frameCount).to.equal(2);
+            expect(fromSeconds(0.021).frameCount).to.equal(0);
+            expect(fromSeconds(0.039).frameCount).to.equal(0);
+            expect(fromSeconds(0.039, 25).frameCount).to.equal(0);
+            expect(fromSeconds(0.040, 25).frameCount).to.equal(1);
+            expect(fromSeconds(0.079, 25).frameCount).to.equal(1);
+            expect(fromSeconds(0.080, 25).frameCount).to.equal(2);
         });
     });
 });

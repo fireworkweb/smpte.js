@@ -36,11 +36,19 @@ SMPTE.fromDate = instantiate;
  * @param {Boolean} df Boolean indicating if timecode is drop frame
  */
 SMPTE.fromSeconds = function (seconds, fr = SMPTE.defaults.frameRate, df = SMPTE.defaults.dropFrame) {
+    if (typeof seconds !== 'number') {
+        throw new Error('First argument must be a number');
+    }
+
+    if (! SMPTE.isFramerateSupported(fr)) {
+        throw new Error('Frame rate not supported');
+    }
+
     let _fc = seconds;
 
     _fc *= df ? fr : Math.round(fr);
 
-    return new SMPTE(Math.round(_fc), fr, df);
+    return new SMPTE(Math.trunc(_fc), fr, df);
 };
 
 /**
@@ -137,5 +145,9 @@ SMPTE.frameCountFromTimecode = function (timecode, fr = SMPTE.defaults.frameRate
 
 SMPTE.defaults = defaults;
 SMPTE.supportedFrameRates = supportedFRs;
+
+SMPTE.isFramerateSupported = function (framerate) {
+    return SMPTE.supportedFrameRates.includes(framerate);
+};
 
 export default SMPTE;
