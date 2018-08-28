@@ -101,16 +101,52 @@ describe('SMPTE', function () {
             expect(() => fromSeconds(1, '')).to.throw(Error);
         });
 
-        it('should properly return frame count from milliseconds', function () {
+        it('should properly return frame count (24 fps)', function () {
             expect(fromSeconds(0).frameCount).to.equal(0);
-            expect(fromSeconds(0.042).frameCount).to.equal(1);
-            expect(fromSeconds(0.084).frameCount).to.equal(2);
+
             expect(fromSeconds(0.021).frameCount).to.equal(0);
             expect(fromSeconds(0.039).frameCount).to.equal(0);
+            expect(fromSeconds(0.042).frameCount).to.equal(1);
+            expect(fromSeconds(0.084).frameCount).to.equal(2);
+            expect(fromSeconds(300).frameCount).to.equal(7200);
+            expect(fromSeconds(600).frameCount).to.equal(14400);
+
+        });
+
+        it('should properly return frame count (25 fps)', function () {
             expect(fromSeconds(0.039, 25).frameCount).to.equal(0);
             expect(fromSeconds(0.040, 25).frameCount).to.equal(1);
             expect(fromSeconds(0.079, 25).frameCount).to.equal(1);
             expect(fromSeconds(0.080, 25).frameCount).to.equal(2);
+            expect(fromSeconds(300, 25).frameCount).to.equal(7500);
+            expect(fromSeconds(600, 25).frameCount).to.equal(15000);
+        });
+
+        it('should properly return frame count (23.976 fps)', function () {
+            expect(fromSeconds(0.041, 23.976).frameCount).to.equal(0);
+            expect(fromSeconds(0.042, 23.976).frameCount).to.equal(1);
+            expect(fromSeconds(0.083, 23.976).frameCount).to.equal(1);
+            expect(fromSeconds(0.084, 23.976).frameCount).to.equal(2);
+            expect(fromSeconds(300.301, 23.976).frameCount).to.equal(7200);
+            expect(fromSeconds(600.601, 23.976).frameCount).to.equal(14400);
+        });
+
+        it('should properly return frame count (29.97 fps)', function () {
+            expect(fromSeconds(0.033, 29.97).frameCount).to.equal(0);
+            expect(fromSeconds(0.034, 29.97).frameCount).to.equal(1);
+            expect(fromSeconds(0.066, 29.97).frameCount).to.equal(1);
+            expect(fromSeconds(0.067, 29.97).frameCount).to.equal(2);
+            expect(fromSeconds(300, 29.97).frameCount).to.equal(8991);
+            expect(fromSeconds(600, 29.97).frameCount).to.equal(17982);
+        });
+
+        it('should properly return frame count (30 fps)', function () {
+            expect(fromSeconds(0.033, 30).frameCount).to.equal(0);
+            expect(fromSeconds(0.034, 30).frameCount).to.equal(1);
+            expect(fromSeconds(0.066, 30).frameCount).to.equal(1);
+            expect(fromSeconds(0.067, 30).frameCount).to.equal(2);
+            expect(fromSeconds(300, 30).frameCount).to.equal(9000);
+            expect(fromSeconds(600, 30).frameCount).to.equal(18000);
         });
     });
 });

@@ -44,11 +44,7 @@ SMPTE.fromSeconds = function (seconds, fr = SMPTE.defaults.frameRate, df = SMPTE
         throw new Error('Frame rate not supported');
     }
 
-    let _fc = seconds;
-
-    _fc *= df ? fr : Math.round(fr);
-
-    return new SMPTE(Math.trunc(_fc), fr, df);
+    return new SMPTE(Math.trunc(seconds * fr), fr, df);
 };
 
 /**
@@ -81,7 +77,7 @@ SMPTE.isTimecodeFormatValid = function (timecode, df) {
         return false;
     }
 
-    if (!df && timecode.includes(';')) {
+    if (! df && timecode.includes(';')) {
         return false;
     }
 
@@ -99,7 +95,7 @@ SMPTE.isTimecodeFormatValid = function (timecode, df) {
  * @param {Boolean} df Boolean indicating if timecode is drop frame
  */
 SMPTE.isValidTimecode = function (timecode, fr = SMPTE.defaults.frameRate, df = SMPTE.defaults.dropFrame) {
-    if (!SMPTE.isTimecodeFormatValid(timecode, df)) {
+    if (! SMPTE.isTimecodeFormatValid(timecode, df)) {
         return false;
     }
 
@@ -109,7 +105,7 @@ SMPTE.isValidTimecode = function (timecode, fr = SMPTE.defaults.frameRate, df = 
         return false;
     }
 
-    if (df && (parts[1] % 10) !== 0 && parts[3] < 2 && parts[2] === 0) {
+    if (df && (parts[1] % 10 !== 0 && parts[3] < 2 && parts[2] === 0)) {
         return false;
     }
 
@@ -123,15 +119,14 @@ SMPTE.isValidTimecode = function (timecode, fr = SMPTE.defaults.frameRate, df = 
  * @param {Boolean} df Boolean indicating if timecode is drop frame
  */
 SMPTE.frameCountFromTimecode = function (timecode, fr = SMPTE.defaults.frameRate, df = SMPTE.defaults.dropFrame) {
-    if (!SMPTE.isValidTimecode(timecode, fr, df)) {
+    if (! SMPTE.isValidTimecode(timecode, fr, df)) {
         throw new Error('Invalid timecode');
     }
 
-    let roundFr = Math.round(fr);
     let parts = timecode.split(/:|;/).map(part => parseInt(part));
-    let _fc = (roundFr * 60 * 60 * parts[0])
-        + (roundFr * 60 * parts[1])
-        + (roundFr * parts[2])
+    let _fc = (fr * 60 * 60 * parts[0])
+        + (fr * 60 * parts[1])
+        + (fr * parts[2])
         + parts[3];
 
     if (df) {
@@ -140,7 +135,7 @@ SMPTE.frameCountFromTimecode = function (timecode, fr = SMPTE.defaults.frameRate
         return _fc - (2 * (totalMinutes - Math.floor(totalMinutes / 10)));
     }
 
-    return _fc;
+    return Math.round(_fc);
 };
 
 SMPTE.defaults = defaults;
