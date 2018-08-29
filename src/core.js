@@ -10,7 +10,7 @@ export default class SMPTE {
             throw new Error('Frame rate not supported');
         }
 
-        this.attributes = { df, frameRate: fr, roundFr: Math.round(fr) };
+        this.attributes = { df, frameRate: fr };
 
         if (typeof time === 'number') {
             if (time < 0) {
@@ -61,11 +61,12 @@ export default class SMPTE {
         this._frameCount = fc;
 
         let _fc = this.attributes.df ? this.dropFrame() : this._frameCount;
+        let roundFr = Math.round(this.attributes.frameRate);
 
-        this._hours = Math.floor(_fc / (this.attributes.roundFr * 3600)) % 24;
-        this._minutes = Math.floor(_fc / (this.attributes.roundFr * 60)) % 60;
-        this._seconds = Math.floor(_fc / this.attributes.roundFr) % 60;
-        this._frames = _fc % this.attributes.roundFr;
+        this._hours = Math.floor(_fc / (roundFr * 3600)) % 24;
+        this._minutes = Math.floor(_fc / (roundFr * 60)) % 60;
+        this._seconds = Math.floor(_fc / roundFr) % 60;
+        this._frames = _fc % roundFr;
     }
 
     get hours () {
@@ -149,7 +150,7 @@ export default class SMPTE {
      * @param {Number|String|Object} time Frame count, SMPTE object or string to be added
      */
     add (time, operation = 1) {
-        if (!(time instanceof SMPTE)) {
+        if (! (time instanceof SMPTE)) {
             time = new SMPTE(time, this.attributes.frameRate, this.attributes.df);
         } else if (time.attributes.frameRate !== this.attributes.frameRate) {
             throw new Error('Different frame rate timecodes can not be added');
