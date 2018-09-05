@@ -123,11 +123,12 @@ SMPTE.frameCountFromTimecode = function (timecode, fr = SMPTE.defaults.frameRate
         throw new Error('Invalid timecode');
     }
 
-    let parts = timecode.split(/:|;/).map(part => parseInt(part));
-    let _fc = (fr * 60 * 60 * parts[0])
-        + (fr * 60 * parts[1])
-        + (fr * parts[2])
-        + parts[3];
+    let parts = timecode.split(/:|;/).map(part => parseInt(part)),
+        roundFr = Math.round(fr),
+        _fc = (roundFr * 60 * 60 * parts[0])
+            + (roundFr * 60 * parts[1])
+            + (roundFr * parts[2])
+            + parts[3];
 
     if (df) {
         let totalMinutes = (60 * parts[0]) + parts[1];
@@ -135,7 +136,7 @@ SMPTE.frameCountFromTimecode = function (timecode, fr = SMPTE.defaults.frameRate
         return _fc - (2 * (totalMinutes - Math.floor(totalMinutes / 10)));
     }
 
-    return Math.round(_fc);
+    return _fc;
 };
 
 SMPTE.defaults = defaults;
