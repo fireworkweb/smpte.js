@@ -156,7 +156,7 @@ export default class SMPTE {
             throw new Error('Different frame rate timecodes can not be added');
         }
 
-        this.frameCount += (time.frameCount * operation);
+        this.frameCount += (time.frameCount * Math.sign(operation));
 
         return this;
     }

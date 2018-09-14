@@ -20,6 +20,11 @@ function instantiate (type, fr = SMPTE.defaults.frameRate, df = SMPTE.defaults.d
 }
 
 /**
+ * Creates a SMPTE object given a Timecode string
+ */
+SMPTE.fromTimecode = instantiate;
+
+/**
  * Creates a SMPTE object given a frame number
  */
 SMPTE.fromFrames = instantiate;
