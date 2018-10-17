@@ -26,9 +26,10 @@ let timecodeToAdd = new SMPTE('00;00;00;02');
 let anotherTimecodeToAdd = SMPTE.fromSeconds(1);
 
 console.log(
-    timecode.add(timecodeToAdd)
-    .add(anotherTimecodeToAdd)
-    .toString('00:00:00;00')
+    timecode
+        .add(timecodeToAdd)
+        .add(anotherTimecodeToAdd)
+        .toString('00:00:00;00')
 );
 // 00:00:01;03
 
@@ -64,13 +65,13 @@ let tm = SMPTE.fromParts(0, 1, 0, 0, 24, false);
 // Timecode string
 let tm = SMPTE.fromTimecode('00:01:00:00', 24, false);
 
-// or using the new operator
+// or using the constructor
 let tm = new SMPTE('00:01:00:00', 24, false);
 ```
 
 ### Properties
 
-SMPTE objects provide the following properties once an object is created:
+SMPTE objects provide the following properties once an object is instantiated:
 
 | Property               | Type      | Description                  |
 | ---------------------- | --------- | ---------------------------- |
@@ -90,7 +91,8 @@ Each SMPTE object provides the following methods:
 #### `addFromSeconds(seconds)`
 Adds a number of seconds to the current timecode object.
 * `seconds`: `Number` indicating the seconds to be added.
-* `return`: The reference to the altered `SMPTE` object
+* `return`: Reference to the changed `SMPTE` object
+
 ##### Example:
 ```javascript
 let tc = SMPTE.fromSeconds(2, 24, false);
@@ -101,7 +103,8 @@ console.log(tc.addFromSeconds(2).toString())
 #### `subtractFromSeconds(seconds)`
 Substracts a timecode or a frame count from the current SMPTE object.
 * `seconds`: `Number` indicating the seconds to be subtracted.
-* `return`: The reference to the altered `SMPTE` object
+* `return`: Reference to the changed `SMPTE` object
+
 ##### Example:
 ```javascript
 let tc = SMPTE.fromSeconds(2, 24, false);
@@ -113,7 +116,8 @@ console.log(tc.subtractFromSeconds(2).toString())
 Adds a timecode or a frame count to the current SMPTE object.
 * `time`: `Number|String|SMPTE` indicating the value to be added.
 * `operation`: `Number` used to get the sign of the `time`.
-* `return`: The reference to the altered `SMPTE` object
+* `return`: Reference to the changed `SMPTE` object
+
 ##### Example:
 ```javascript
 let tc = SMPTE.fromTimecode('00:01:00:00', 24, false);
@@ -124,7 +128,8 @@ console.log(tc.add('00:00:30:00').toString())
 #### `subtract(time)`
 Substracts a timecode or a frame count from the current SMPTE object.
 * `time`: `Number|String|SMPTE` indicating the value to be subtracted.
-* `return`: The reference to the altered `SMPTE` object
+* `return`: Reference to the altered `SMPTE` object
+
 ##### Example:
 ```javascript
 let tc = SMPTE.fromTimecode('00:00:01:00', 24, false);
@@ -136,6 +141,7 @@ console.log(tc.subtract(4).toString())
 Returns a string with the SMPTE timecode representation.
 * `format`: `String` mask to form the string.
 * `return`: Timecode `string`.
+
 ##### Example:
 ```javascript
 console.log(new SMPTE(48, 24, false).toString())
@@ -144,7 +150,7 @@ console.log(new SMPTE(48, 24, false).toString())
 
 #### `toDate()`
 Converts a SMPTE object to a date object.
-* `return`: The respective `Date` object.
+* `return`: Respective `Date` object.
 ```javascript
 console.log(new SMPTE(48, 24, false).toDate().getSeconds())
 // 2
