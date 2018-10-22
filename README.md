@@ -73,16 +73,16 @@ let tm = new SMPTE('00:01:00:00', 24, false);
 
 SMPTE objects provide the following properties once an object is instantiated:
 
-| Property               | Type      | Description                  |
-| ---------------------- | --------- | ---------------------------- |
-| `framecount`           | `Number`  | Total number of frames       |
-| `hours`                | `Number`  | Hours number                 |
-| `minutes`              | `Number`  | Minutes number               |
-| `seconds`              | `Number`  | Seconds number               |
-| `frames`               | `Number`  | Frames number                |
-| `durationInSeconds`    | `Number`  | Timecode duration in seconds |
-| `attributes.df`        | `Boolean` | Drop frame indicator         |
-| `attributes.frameRate` | `Number`  | Frame rate in FPS            |
+| Property               | Type      | get                | set                | Description                  |
+| ---------------------- | --------- | ------------------ | ------------------ | ---------------------------- |
+| `frameCount`           | `Number`  | :white_check_mark: | :white_check_mark: | Total number of frames       |
+| `hours`                | `Number`  | :white_check_mark: | :white_check_mark: | Hours number                 |
+| `minutes`              | `Number`  | :white_check_mark: | :white_check_mark: | Minutes number               |
+| `seconds`              | `Number`  | :white_check_mark: | :white_check_mark: | Seconds number               |
+| `frames`               | `Number`  | :white_check_mark: | :white_check_mark: | Frames number                |
+| `durationInSeconds`    | `Number`  | :white_check_mark: | :x:                | Timecode duration in seconds |
+| `attributes.df`        | `Boolean` | :white_check_mark: | :white_check_mark: | Global drop frame indicator  |
+| `attributes.frameRate` | `Number`  | :white_check_mark: | :white_check_mark: | Global Frame rate in FPS     |
 
 ### Methods
 
