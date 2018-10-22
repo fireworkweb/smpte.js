@@ -1,6 +1,6 @@
 {
   "name": "smpte.js",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "main": "dist/index.js",
   "scripts": {
     "webpack:base": "node_modules/webpack/bin/webpack.js --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
