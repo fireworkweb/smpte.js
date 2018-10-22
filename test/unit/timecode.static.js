@@ -4,6 +4,7 @@ import SMPTE from '../../src/index.js';
 describe('SMPTE', function () {
     describe('.constructor(time, frameRate=24, df=false)', function () {
         it('requires smpte timecode string or frame count as argument', function () {
+            expect(() => new SMPTE()).to.not.throw(Error);
             expect(() => new SMPTE(0)).to.not.throw(Error);
             expect(() => new SMPTE({})).to.not.throw(Error);
             expect(() => new SMPTE('00:00:00:00')).to.not.throw(Error);
