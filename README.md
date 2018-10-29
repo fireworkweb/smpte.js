@@ -1,5 +1,7 @@
 # smpte.js
 
+[![Build Status](https://travis-ci.com/fireworkweb/smpte.js.svg?branch=master)](https://travis-ci.com/fireworkweb/smpte.js)
+
 Easily deal with Timecode SMPTE format.
 
 ## Installation
