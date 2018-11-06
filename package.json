@@ -11,9 +11,10 @@
     "lint": "eslint -c .eslintrc.prod.json --ext js src",
     "lint:fix": "yarn lint --fix",
     "prepublishOnly": "yarn test && yarn prod",
-    "test:base": "node_modules/mocha/bin/mocha --require babel-core/register",
+    "test:base": "mocha --require babel-core/register",
     "test": "yarn test:base \"test/**/*.js\"",
     "test:bail": "yarn test --bail",
+    "coverage": "nyc --reporter lcovonly mocha --require babel-core/register \"test/**/*.js\" && codecov",
     "build": "yarn prod",
     "start": "serve"
   },
@@ -30,9 +31,11 @@
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "chai": "^4.1.2",
+    "codecov": "^3.1.0",
     "eslint": "^5.6.0",
     "laravel-mix": "^2.1.14",
     "mocha": "^5.2.0",
+    "nyc": "^13.1.0",
     "serve": "^10.0.1"
   },
   "dependencies": {}

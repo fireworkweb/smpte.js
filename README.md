@@ -1,8 +1,9 @@
 # smpte.js
 
 [![Build Status](https://travis-ci.com/fireworkweb/smpte.js.svg?branch=master)](https://travis-ci.com/fireworkweb/smpte.js)
+[![codecov](https://codecov.io/gh/fireworkweb/smpte.js/branch/master/graph/badge.svg)](https://codecov.io/gh/fireworkweb/smpte.js)
 
-Easily deal with Timecode SMPTE format.
+Easily deal with Timecode SMPTE format in js. If you need a PHP lib, check out [fireworkweb/smpte.php](https://github.com/fireworkweb/smpte.php).
 
 ## Installation
 
