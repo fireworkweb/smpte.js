@@ -26,9 +26,9 @@ describe('SMPTE', function () {
             expect(() => new SMPTE('00;00;00;00', 29.97, true)).to.not.throw(Error);
         });
 
-        it('supports only 23.976, 24, 25, 29.97 or 30 frame rate', function () {
+        it('supports only 23.97, 24, 25, 29.97 or 30 frame rate', function () {
             expect(() => new SMPTE(128, 59.94)).to.throw(Error);
-            expect(() => new SMPTE(128, 23.976)).to.not.throw(Error);
+            expect(() => new SMPTE(128, 23.97)).to.not.throw(Error);
             expect(() => new SMPTE(128, 24)).to.not.throw(Error);
             expect(() => new SMPTE(128, 25)).to.not.throw(Error);
             expect(() => new SMPTE(128, 29.97)).to.not.throw(Error);
@@ -36,7 +36,7 @@ describe('SMPTE', function () {
         });
 
         it('supports drop frame only for 29.97 frameRate', function () {
-            expect(() => new SMPTE(128, 23.976, true)).to.throw(Error);
+            expect(() => new SMPTE(128, 23.97, true)).to.throw(Error);
             expect(() => new SMPTE(128, 24, true)).to.throw(Error);
             expect(() => new SMPTE(128, 25, true)).to.throw(Error);
             expect(() => new SMPTE(128, 30, true)).to.throw(Error);
@@ -77,7 +77,7 @@ describe('SMPTE', function () {
         const isFramerateSupported = SMPTE.isFramerateSupported;
 
         it('should validate supported framerates', function () {
-            expect(isFramerateSupported(23.976)).to.be.true;
+            expect(isFramerateSupported(23.97)).to.be.true;
             expect(isFramerateSupported(24)).to.be.true;
             expect(isFramerateSupported(25)).to.be.true;
             expect(isFramerateSupported(29.97)).to.be.true;
@@ -122,13 +122,13 @@ describe('SMPTE', function () {
             expect(fromSeconds(600, 25).frameCount).to.equal(15000);
         });
 
-        it('should properly return frame count (23.976 fps)', function () {
-            expect(fromSeconds(0.041, 23.976).frameCount).to.equal(0);
-            expect(fromSeconds(0.042, 23.976).frameCount).to.equal(1);
-            expect(fromSeconds(0.083, 23.976).frameCount).to.equal(1);
-            expect(fromSeconds(0.084, 23.976).frameCount).to.equal(2);
-            expect(fromSeconds(300.301, 23.976).frameCount).to.equal(7200);
-            expect(fromSeconds(600.601, 23.976).frameCount).to.equal(14400);
+        it('should properly return frame count (23.97 fps)', function () {
+            expect(fromSeconds(0.041, 23.97).frameCount).to.equal(0);
+            expect(fromSeconds(0.042, 23.97).frameCount).to.equal(1);
+            expect(fromSeconds(0.083, 23.97).frameCount).to.equal(1);
+            expect(fromSeconds(0.084, 23.97).frameCount).to.equal(2);
+            expect(fromSeconds(300.301, 23.97).frameCount).to.equal(7200);
+            expect(fromSeconds(600.601, 23.97).frameCount).to.equal(14400);
         });
 
         it('should properly return frame count (29.97 fps)', function () {

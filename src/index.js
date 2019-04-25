@@ -2,7 +2,7 @@ import SMPTE from './core.js';
 import defaults from './defaults.js';
 
 const supportedFRs = Object.freeze([
-    23.976,
+    23.97,
     24,
     25,
     29.97,
