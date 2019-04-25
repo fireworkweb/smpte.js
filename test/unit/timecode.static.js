@@ -127,8 +127,8 @@ describe('SMPTE', function () {
             expect(fromSeconds(0.042, 23.97).frameCount).to.equal(1);
             expect(fromSeconds(0.083, 23.97).frameCount).to.equal(1);
             expect(fromSeconds(0.084, 23.97).frameCount).to.equal(2);
-            expect(fromSeconds(300.301, 23.97).frameCount).to.equal(7200);
-            expect(fromSeconds(600.601, 23.97).frameCount).to.equal(14400);
+            expect(fromSeconds(300.376, 23.97).frameCount).to.equal(7200);
+            expect(fromSeconds(600.751, 23.97).frameCount).to.equal(14400);
         });
 
         it('should properly return frame count (29.97 fps)', function () {
