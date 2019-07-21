@@ -11,10 +11,10 @@
     "lint": "eslint -c .eslintrc.prod.json --ext js src",
     "lint:fix": "yarn lint --fix",
     "prepublishOnly": "yarn test && yarn prod",
-    "test:base": "mocha --require babel-core/register",
+    "test:base": "mocha --require @babel/register",
     "test": "yarn test:base \"test/**/*.js\"",
     "test:bail": "yarn test --bail",
-    "coverage": "nyc --reporter lcovonly mocha --require babel-core/register \"test/**/*.js\" && codecov",
+    "coverage": "nyc --reporter lcovonly mocha --require @babel/register \"test/**/*.js\" && codecov",
     "build": "yarn prod",
     "start": "serve"
   },
@@ -28,15 +28,17 @@
     "url": "https://github.com/fireworkweb/smpte.js/issues"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "chai": "^4.1.2",
-    "codecov": "^3.1.0",
-    "eslint": "^5.6.0",
-    "laravel-mix": "^2.1.14",
-    "mocha": "^5.2.0",
-    "nyc": "^13.1.0",
-    "serve": "^10.0.1"
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/register": "^7.5.5",
+    "chai": "^4.2.0",
+    "codecov": "^3.5.0",
+    "eslint": "^6.1.0",
+    "laravel-mix": "^4.1.2",
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1",
+    "serve": "^11.1.0",
+    "vue-template-compiler": "^2.6.10"
   },
   "dependencies": {}
 }
