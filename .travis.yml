@@ -13,3 +13,4 @@ script:
 - yarn prod
 - yarn test
 - yarn lint
+- yarn coverage
