@@ -1,8 +1,9 @@
 import { padNumber } from './utils.js';
+import FrameRate from "./framerate.js";
 
 export default class SMPTE {
     constructor (time = 0, fr = SMPTE.defaults.frameRate, df = SMPTE.defaults.dropFrame) {
-        if (fr !== 30000 / 1001 && df) {
+        if (fr !== FrameRate.FR_29_97 && df) {
             throw new Error('Only 30000/10001 frame rate has drop frame support');
         }
 
