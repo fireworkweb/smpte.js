@@ -1,12 +1,16 @@
 import SMPTE from './core.js';
 import defaults from './defaults.js';
+import FrameRate from './framerate.js';
 
 const supportedFRs = Object.freeze([
-    23.97,
-    24,
-    25,
-    29.97,
-    30,
+    FrameRate.FR_23_976,
+    FrameRate.FR_24,
+    FrameRate.FR_25,
+    FrameRate.FR_29_97,
+    FrameRate.FR_30,
+    FrameRate.FR_50,
+    FrameRate.FR_59_94,
+    FrameRate.FR_60,
 ]);
 
 /**

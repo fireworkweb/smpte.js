@@ -1,4 +1,6 @@
+import FrameRate from "./framerate.js";
+
 export default {
-    frameRate: 24,
+    frameRate: FrameRate.FR_24,
     dropFrame: false,
 };
