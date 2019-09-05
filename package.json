@@ -32,14 +32,13 @@
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@babel/register": "^7.5.5",
-    "babel-eslint": "^10.0.2",
+    "babel-eslint": "^10.0.3",
     "chai": "^4.2.0",
     "codecov": "^3.5.0",
-    "eslint": "^6.1.0",
-    "laravel-mix": "^4.1.2",
+    "eslint": "^6.3.0",
+    "laravel-mix": "4.1.2",
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",
-    "serve": "^11.1.0",
     "vue-template-compiler": "^2.6.10"
   },
   "dependencies": {}

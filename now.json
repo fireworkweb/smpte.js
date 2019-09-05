@@ -1,9 +1,0 @@
-{
-  "name": "smpte-js",
-  "alias": "smpte-js",
-  "static":{
-    "redirects": [
-      { "source": "/", "destination": "/examples/" }
-    ]
-  }
-}
