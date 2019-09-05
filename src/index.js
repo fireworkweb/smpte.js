@@ -148,6 +148,7 @@ SMPTE.frameCountFromTimecode = function (timecode, fr = SMPTE.defaults.frameRate
     return _fc;
 };
 
+SMPTE.consts = Object.assign({}, FrameRate);
 SMPTE.defaults = defaults;
 SMPTE.supportedFrameRates = supportedFRs;
 

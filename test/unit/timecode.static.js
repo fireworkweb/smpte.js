@@ -49,6 +49,16 @@ describe('SMPTE', function () {
         });
     });
 
+    describe('.consts', function () {
+        it('should expose an object', function () {
+            expect(SMPTE.consts).to.be.an('object');
+        });
+
+        it('should have all FrameRates', function () {
+            expect(SMPTE.consts).to.include(FrameRate);
+        });
+    });
+
     describe('.isValidTimecode()', function () {
         const isValidTimecode = SMPTE.isValidTimecode;
 
