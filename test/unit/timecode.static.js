@@ -193,4 +193,69 @@ describe('SMPTE', function () {
             expect(fromSeconds(600, FrameRate.FR_60).frameCount).to.equal(36000);
         });
     });
+
+    describe('.fromArray()', function () {
+        const fromArray = SMPTE.fromArray;
+
+        it('should accept an array', function () {
+            expect(() => fromArray('00:00:00:00')).to.throw(Error);
+            expect(() => fromArray(0)).to.throw(Error);
+            expect(() => fromArray([
+                0,
+                0,
+                0,
+                0,
+            ])).to.not.throw(Error);
+        });
+
+        it('should accept an valid timecode array', function () {
+            expect(() => fromArray([
+                0,
+            ])).to.throw(Error);
+
+            expect(() => fromArray([
+                25,
+                60,
+                60,
+                60,
+            ])).to.throw(Error);
+
+            expect(() => fromArray([
+                23,
+                59,
+                59,
+                23,
+            ])).to.not.throw(Error);
+        });
+
+        it('should properly return frame count', function () {
+            const timecode = '02:30:10:15';
+
+            const splitted = timecode.split(':').map(part => parseInt(part));
+
+            expect(fromArray(splitted, FrameRate.FR_23_976).frameCount)
+                .to.equal(new SMPTE(timecode, FrameRate.FR_23_976).frameCount);
+
+            expect(fromArray(splitted, FrameRate.FR_24).frameCount)
+                .to.equal(new SMPTE(timecode, FrameRate.FR_24).frameCount);
+
+            expect(fromArray(splitted, FrameRate.FR_25).frameCount)
+                .to.equal(new SMPTE(timecode, FrameRate.FR_25).frameCount);
+
+            expect(fromArray(splitted, FrameRate.FR_29_97).frameCount)
+                .to.equal(new SMPTE(timecode, FrameRate.FR_29_97).frameCount);
+
+            expect(fromArray(splitted, FrameRate.FR_30).frameCount)
+                .to.equal(new SMPTE(timecode, FrameRate.FR_30).frameCount);
+
+            expect(fromArray(splitted, FrameRate.FR_50).frameCount)
+                .to.equal(new SMPTE(timecode, FrameRate.FR_50).frameCount);
+
+            expect(fromArray(splitted, FrameRate.FR_59_94).frameCount)
+                .to.equal(new SMPTE(timecode, FrameRate.FR_59_94).frameCount);
+
+            expect(fromArray(splitted, FrameRate.FR_60).frameCount)
+                .to.equal(new SMPTE(timecode, FrameRate.FR_60).frameCount);
+        });
+    });
 });
