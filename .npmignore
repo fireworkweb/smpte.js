@@ -1,6 +1,5 @@
 test
 .editorconfig
-.eslintrc.json
-.eslintrc.prod.json
-.travis.yml
+.eslintrc.js
+.github
 .babelrc

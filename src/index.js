@@ -71,9 +71,9 @@ SMPTE.fromParts = function (
     seconds = 0,
     frames = 0,
     fr = SMPTE.defaults.frameRate,
-    df = SMPTE.defaults.dropFrame
+    df = SMPTE.defaults.dropFrame,
 ) {
-    return new SMPTE({hours, minutes, seconds, frames}, fr, df);
+    return new SMPTE({ hours, minutes, seconds, frames }, fr, df);
 };
 
 /**
@@ -85,7 +85,7 @@ SMPTE.fromParts = function (
 SMPTE.fromArray = function (
     timecode,
     fr = SMPTE.defaults.frameRate,
-    df = SMPTE.defaults.dropFrame
+    df = SMPTE.defaults.dropFrame,
 ) {
     if (! Array.isArray(timecode)) {
         throw new Error('First argument must be an array');
@@ -106,7 +106,7 @@ SMPTE.fromArray = function (
         frames,
     ] = timecode;
 
-    return new SMPTE({hours, minutes, seconds, frames}, fr, df);
+    return new SMPTE({ hours, minutes, seconds, frames }, fr, df);
 };
 
 /**

@@ -1,4 +1,4 @@
-import FrameRate from "./framerate.js";
+import FrameRate from './framerate.js';
 
 export default {
     frameRate: FrameRate.FR_24,
