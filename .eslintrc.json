@@ -1,9 +1,0 @@
-{
-  "extends": [
-    "./.eslintrc.prod.json"
-  ],
-  "rules": {
-    "no-console": "off",
-    "no-debugger": "off"
-  }
-}

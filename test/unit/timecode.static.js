@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import SMPTE from '../../src/index.js';
-import FrameRate from "../../src/framerate.js";
+import FrameRate from '../../src/framerate.js';
 
 describe('SMPTE', function () {
     describe('.constructor(time, frameRate=24, df=false)', function () {

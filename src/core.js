@@ -1,5 +1,5 @@
 import { padNumber } from './utils.js';
-import FrameRate from "./framerate.js";
+import FrameRate from './framerate.js';
 
 export default class SMPTE {
     constructor (time = 0, fr = SMPTE.defaults.frameRate, df = SMPTE.defaults.dropFrame) {
@@ -46,7 +46,7 @@ export default class SMPTE {
             time = Object.keys(time)
                 .reduce(
                     (prev, key) => prev += `${time[key] !== undefined ? time[key] : '00'}${separator}`,
-                    ""
+                    '',
                 )
                 .slice(0, -1);
         }
@@ -204,7 +204,7 @@ export default class SMPTE {
                 separator,
             ];
 
-        if (format !== undefined && !validTm) {
+        if (format !== undefined && ! validTm) {
             throw new Error('Invalid timecode string');
         }
 

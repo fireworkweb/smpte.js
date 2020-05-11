@@ -1,4 +1,4 @@
-/* global require */
+/* eslint-disable promise/catch-or-return */
 const mix = require('laravel-mix');
 const { unlinkSync } = require('fs');
 
@@ -8,6 +8,7 @@ mix
             library: 'SMPTE',
             libraryExport: 'default',
             libraryTarget: 'umd',
+            globalObject: 'this',
         },
     })
     .js('src/index.js', 'dist')

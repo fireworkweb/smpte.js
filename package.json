@@ -4,11 +4,11 @@
   "main": "dist/index.js",
   "scripts": {
     "webpack:base": "node_modules/webpack/bin/webpack.js --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "dev:base": "NODE_ENV=development yarn webpack:base",
+    "dev:base": "cross-env NODE_ENV=development yarn webpack:base",
     "dev": "yarn dev:base --progress",
     "watch": "yarn dev --watch",
-    "prod": "NODE_ENV=production yarn webpack:base",
-    "lint": "eslint -c .eslintrc.prod.json --ext js src",
+    "prod": "cross-env NODE_ENV=production yarn webpack:base",
+    "lint": "eslint --ext js .",
     "lint:fix": "yarn lint --fix",
     "prepublishOnly": "yarn test && yarn prod",
     "test:base": "mocha --require @babel/register",
@@ -28,18 +28,21 @@
     "url": "https://github.com/fireworkweb/smpte.js/issues"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/register": "^7.5.5",
-    "babel-eslint": "^10.0.3",
+    "@babel/core": "^7.9.6",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/register": "^7.9.0",
+    "@fireworkweb/eslint-config": "^1.0.0",
+    "babel-loader": "^8.1.0",
     "chai": "^4.2.0",
     "codecov": "^3.6.5",
-    "eslint": "^6.3.0",
-    "laravel-mix": "4.1.2",
-    "mocha": "^6.2.0",
-    "nyc": "^14.1.1",
-    "vue-template-compiler": "^2.6.10"
+    "cross-env": "^7.0.2",
+    "eslint": "^7.0.0",
+    "laravel-mix": "^5.0.4",
+    "mocha": "^7.1.2",
+    "nyc": "^15.0.1",
+    "vue-template-compiler": "^2.6.11"
   },
   "dependencies": {}
 }
