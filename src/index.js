@@ -77,6 +77,39 @@ SMPTE.fromParts = function (
 };
 
 /**
+ * Creates a SMPTE object given an array of parts of the timecode
+ * @param {Array} timecode Array containing parts of the timecode
+ * @param {Number} fr Frame rate number
+ * @param {Boolean} df Boolean indicating if timecode is drop frame
+ */
+SMPTE.fromArray = function (
+    timecode,
+    fr = SMPTE.defaults.frameRate,
+    df = SMPTE.defaults.dropFrame
+) {
+    if (! Array.isArray(timecode)) {
+        throw new Error('First argument must be an array');
+    }
+
+    const strTimecode = timecode
+        .map(part => part.toString().padStart(2, '0'))
+        .join(df ? ';' : ':');
+
+    if (! SMPTE.isTimecodeFormatValid(strTimecode)) {
+        throw new Error('Invalid timecode');
+    }
+
+    const [
+        hours,
+        minutes,
+        seconds,
+        frames,
+    ] = timecode;
+
+    return new SMPTE({hours, minutes, seconds, frames}, fr, df);
+};
+
+/**
  * Checks if a timecode string is in a valid format
  * @param {String} timecode Timecode string to be evaluated
  * @param {Boolean} df Boolean indicating if is drop frame representation
