@@ -189,4 +189,20 @@ SMPTE.isFramerateSupported = function (framerate) {
     return SMPTE.supportedFrameRates.includes(framerate);
 };
 
+/**
+ * Gets the maximum timecode
+ * @param {Array.<SMPTE>} args List of timecode objects
+ */
+SMPTE.max = function (...args) {
+    return args.reduce((max, timecode) => timecode.frameCount > max.frameCount ? timecode : max);
+};
+
+/**
+ * Gets the minimum timecode
+ * @param {Array.<SMPTE>} args List of timecode objects
+ */
+SMPTE.min = function (...args) {
+    return args.reduce((min, timecode) => timecode.frameCount < min.frameCount ? timecode : min);
+};
+
 export default SMPTE;
