@@ -258,4 +258,56 @@ describe('SMPTE', function () {
                 .to.equal(new SMPTE(timecode, FrameRate.FR_60).frameCount);
         });
     });
+
+    describe('.max()', function () {
+        it('should properly return the maximum timecode', function () {
+            const timecodeList = [
+                new SMPTE('00:00:03:00'),
+                new SMPTE('01:20:01:15'),
+                new SMPTE('00:00:05:10'),
+                new SMPTE('00:01:12:13'),
+                new SMPTE('00:00:00:10'),
+            ];
+
+            expect(SMPTE.max(...timecodeList).toString()).to.equal('01:20:01:15');
+        });
+
+        it('should properly return the maximum timecode (multiple framerate)', function () {
+            const timecodeList = [
+                new SMPTE('00:00:03:00', FrameRate.FR_30),
+                new SMPTE('01:20:01:15', FrameRate.FR_59_94),
+                new SMPTE('00:00:05:10', FrameRate.FR_25),
+                new SMPTE('00:01:12;13', FrameRate.FR_29_97, true),
+                new SMPTE('00:00:00:10', FrameRate.FR_24),
+            ];
+
+            expect(SMPTE.max(...timecodeList).toString()).to.equal('01:20:01:15');
+        });
+    });
+
+    describe('.min()', function () {
+        it('should properly return the minimum timecode', function () {
+            const timecodeList = [
+                new SMPTE('00:00:03:00'),
+                new SMPTE('01:20:01:15'),
+                new SMPTE('00:00:05:10'),
+                new SMPTE('00:01:12:13'),
+                new SMPTE('00:00:00:10'),
+            ];
+
+            expect(SMPTE.min(...timecodeList).toString()).to.equal('00:00:00:10');
+        });
+
+        it('should properly return the minimum timecode (multiple framerate)', function () {
+            const timecodeList = [
+                new SMPTE('00:00:03:00', FrameRate.FR_30),
+                new SMPTE('01:20:01:15', FrameRate.FR_59_94),
+                new SMPTE('00:00:05:10', FrameRate.FR_25),
+                new SMPTE('00:01:12;13', FrameRate.FR_29_97, true),
+                new SMPTE('00:00:00:10', FrameRate.FR_24),
+            ];
+
+            expect(SMPTE.min(...timecodeList).toString()).to.equal('00:00:00:10');
+        });
+    });
 });
