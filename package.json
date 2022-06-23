@@ -36,7 +36,7 @@
     "@fireworkweb/eslint-config": "^1.0.0",
     "babel-loader": "^8.1.0",
     "chai": "^4.2.0",
-    "codecov": "^3.6.5",
+    "codecov": "^3.8.3",
     "cross-env": "^7.0.2",
     "eslint": "^7.0.0",
     "laravel-mix": "^5.0.4",
